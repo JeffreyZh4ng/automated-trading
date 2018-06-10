@@ -1,7 +1,7 @@
 import requests
 
 
-class Login:
+class ApiRequests:
 
     @staticmethod
     def login_with_credentials(username, password):
@@ -33,11 +33,12 @@ class Login:
         return response
 
     @staticmethod
-    def logout():
+    def logout(token):
         headers = {
             'Accept': 'application/json',
+            'Authorization': 'Token %s' % token,
         }
 
-        response = requests.post('api.robinhood.com/api-token-logout/', headers=headers)
+        response = requests.post('https://api.robinhood.com/api-token-logout/', headers=headers)
         return response
 
