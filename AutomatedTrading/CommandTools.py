@@ -50,6 +50,27 @@ class CommandTools:
             print('Entering login credentials')
             response = ApiRequests.login_with_credentials(username, password)
 
+            # THIS WILL BE DELETED AFTER TEST
+            if response.status_code == 200:
+                json_data = json.loads(response.text)
+                response_token = json_data['token']
+
+                if os.path.exists('robinhood_token.txt'):
+                    robinhood_token_file = open('robinhood_token.txt', 'r+')
+                    current_token = robinhood_token_file.read()
+                    if response_token != current_token:
+                        robinhood_token_file.truncate()
+                        robinhood_token_file.write(response_token)
+                        robinhood_token_file.close()
+
+                else:
+                    robinhood_token_file = open('robinhood_token.txt', 'w+')
+                    robinhood_token_file.write(response_token)
+                    robinhood_token_file.close()
+            else:
+                print('Bad HTTP response: %s' % response.status_code)
+                sys.exit()
+
         print(response.text)
 
     @staticmethod
