@@ -51,5 +51,9 @@ if __name__ == '__main__':
         print(response.text)
         sys.exit()
 
+    elif command_name == 'logout':
+        response = Login.logout()
+        print(response.text)
+
     else:
         print('Command does no exist or number of parameters for command was incorrect')

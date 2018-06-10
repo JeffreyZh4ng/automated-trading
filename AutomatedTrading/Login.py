@@ -31,3 +31,13 @@ class Login:
 
         response = requests.post('https://api.robinhood.com/api-token-auth/', headers=headers, data=data)
         return response
+
+    @staticmethod
+    def logout():
+        headers = {
+            'Accept': 'application/json',
+        }
+
+        response = requests.post('api.robinhood.com/api-token-logout/', headers=headers)
+        return response
+
