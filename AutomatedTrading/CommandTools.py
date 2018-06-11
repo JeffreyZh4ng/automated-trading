@@ -82,9 +82,7 @@ class CommandTools:
         """
 
         if os.path.exists('robinhood_token.txt'):
-            robinhood_token_file = open('robinhood_token.txt')
-            current_token = robinhood_token_file.read()
-            response = ApiRequests.logout(current_token)
+            response = ApiRequests.logout(CommandTools.get_token())
 
             print('There will be no response if logout is successful')
             print(response.text)
@@ -92,3 +90,15 @@ class CommandTools:
         else:
             print('You cant logout if you do not have an assigned token yet')
             sys.exit()
+
+    @staticmethod
+    def get_token():
+        """ Simple helper that will return the token stored in the text file.
+
+        :return: Your Robinhood API token
+        """
+
+        robinhood_token_file = open('robinhood_token.txt')
+        current_token = robinhood_token_file.read()
+
+        return current_token
