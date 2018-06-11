@@ -42,3 +42,11 @@ class ApiRequests:
         response = requests.post('https://api.robinhood.com/api-token-logout/', headers=headers)
         return response
 
+    @staticmethod
+    def get_data(ticker_symbol):
+        headers = {
+            'Accept': 'application/json'
+        }
+
+        response = requests.get('https:://api.robinhood.com/fundamentals/' + ticker_symbol + '/', headers=headers)
+        return response

@@ -59,6 +59,7 @@ class CommandTools:
                     robinhood_token_file = open('robinhood_token.txt', 'r+')
                     current_token = robinhood_token_file.read()
                     if response_token != current_token:
+                        robinhood_token_file.seek(0)
                         robinhood_token_file.truncate()
                         robinhood_token_file.write(response_token)
                         robinhood_token_file.close()
@@ -89,6 +90,31 @@ class CommandTools:
 
         else:
             print('You cant logout if you do not have an assigned token yet')
+            sys.exit()
+
+    @staticmethod
+    def get_fundamental_data():
+        """ This method will try to collect the fundamental data -- price, PE ratio, daily high, daily low,
+        annual high, annual low, etc.. -- for the requested security. The results, which will be returned in
+        JSON format, will be stored in a text file. Do not commit the file.
+
+        :return: None (If we choose to we can return the API response)
+        """
+
+        ticker_symbol = sys.argv[2]
+        response = ApiRequests.get_data(ticker_symbol)
+
+        if response.status_code == 200:
+            if os.path.exists('ticker_data.txt'):
+                ticker_data_file = open('ticker_data.txt', 'r+')
+            else:
+                ticker_data_file = open('ticker_data.txt', 'w+')
+
+            ticker_data_file.write(response)
+            ticker_data_file.close()
+
+        else:
+            print('Bad HTTP response: %s' % response.status_code)
             sys.exit()
 
     @staticmethod
