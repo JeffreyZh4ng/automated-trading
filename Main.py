@@ -19,5 +19,8 @@ if __name__ == '__main__':
     elif command_name == 'logout':
         CommandTools.execute_logout()
 
+    elif command_name == 'data':
+        CommandTools.get_fundamental_data()
+
     else:
         print('Command does no exist or number of parameters for command was incorrect')
