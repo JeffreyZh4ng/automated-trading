@@ -48,12 +48,10 @@ class ApiRequests:
 
     @staticmethod
     def get_data(ticker_symbol):
-        token = CommandTools.get_token()
 
         headers = {
             'Accept': 'application/json',
-            'Authorization': 'Token %s' % token,
         }
 
-        response = requests.get('https:://api.robinhood.com/fundamentals/%s/' % ticker_symbol, headers=headers)
+        response = requests.get('https://api.robinhood.com/quotes/%s/' % ticker_symbol, headers=headers)
         return response
