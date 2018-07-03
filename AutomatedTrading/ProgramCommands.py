@@ -5,10 +5,10 @@ import json
 from .ApiRequests import ApiRequests
 
 
-class ApiCommands:
+class ProgramCommands:
 
     @staticmethod
-    def execute_login():
+    def login(username, password, mfa_code=0):
         """ This method will try to login the user. If the user does no have an assigned token, they will log in with
         'login [username] [password]'. If they have MFA set up, the will receive a code through the specified medium.
         They will then have to run login again with 'login [username] [password] [MFA-code] to receive the token. If
@@ -17,12 +17,9 @@ class ApiCommands:
 
         :return: None (If we choose to we can return the API response)
         """
-        username = sys.argv[2]
-        password = sys.argv[3]
 
         # If the number of arguments is 5, the MFA token was passed in. Check if a new token needs to be written
-        if len(sys.argv) == 5:
-            mfa_code = sys.argv[4]
+        if mfa_code != 0:
             response = ApiRequests.login_with_mfa(username, password, mfa_code)
 
             if response.status_code == 200:
@@ -50,32 +47,10 @@ class ApiCommands:
             print('Entering login credentials')
             response = ApiRequests.login_with_credentials(username, password)
 
-            # THIS WILL BE DELETED AFTER TEST
-            if response.status_code == 200:
-                json_data = json.loads(response.text)
-                response_token = json_data['token']
-
-                if os.path.exists('robinhood_token.txt'):
-                    robinhood_token_file = open('robinhood_token.txt', 'r+')
-                    current_token = robinhood_token_file.read()
-                    if response_token != current_token:
-                        robinhood_token_file.seek(0)
-                        robinhood_token_file.truncate()
-                        robinhood_token_file.write(response_token)
-                        robinhood_token_file.close()
-
-                else:
-                    robinhood_token_file = open('robinhood_token.txt', 'w+')
-                    robinhood_token_file.write(response_token)
-                    robinhood_token_file.close()
-            else:
-                print('Bad HTTP response: %s' % response.status_code)
-                sys.exit()
-
         print(response.text)
 
     @staticmethod
-    def execute_logout():
+    def logout():
         """ This method will try to log out the user. When the user logs out, their token will be invalidated. Upon login,
         they will receive a new token. If the user does not have a token text file, they cannot log out
 
