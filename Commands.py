@@ -14,11 +14,11 @@ if __name__ == '__main__':
 
     if command_name == 'login':
         if argument_count == 3:
-            ProgramCommands.login(sys.argv[3], sys.argv[4])
+            ProgramCommands.login(sys.argv[2], sys.argv[3])
         elif argument_count == 4:
-            ProgramCommands.login(sys.argv[3], sys.argv[4], sys.argv[5])
+            ProgramCommands.login(sys.argv[2], sys.argv[3], sys.argv[4])
         else:
-            print('The login does not accept these parameters')
+            print('The login command does not accept these parameters')
 
     elif command_name == 'logout':
         ProgramCommands.logout()

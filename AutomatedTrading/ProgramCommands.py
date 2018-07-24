@@ -10,12 +10,14 @@ class ProgramCommands:
     @staticmethod
     def login(username, password, mfa_code=0):
         """ This method will try to login the user. If the user does no have an assigned token, they will log in with
-        'login [username] [password]'. If they have MFA set up, the will receive a code through the specified medium.
+        'login [username] [password]'. If they have MFA set up, they will receive a code most likely through SMS.
         They will then have to run login again with 'login [username] [password] [MFA-code] to receive the token. If
         they don't have MFA, then they will be logged in a given a token. The token will be stored in a text file that
         should be updated when the user receives a new token. Do not commit the file generated
 
-        :return: None (If we choose to we can return the API response)
+        :param username: The users Robinhood username
+        :param password: The users Robinhood password
+        :param mfa_code: The mfa_code
         """
 
         # If the number of arguments is 5, the MFA token was passed in. Check if a new token needs to be written
